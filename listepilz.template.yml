@@ -21,4 +21,4 @@ Modules:
     vars:
       source: {{ domain }}
       hostedZone: {{ domain }}
-      targets: {{ ['google-site-verification=FUiaYFFdYrCtrcLB8viZUwT7Q2RjQAqksNJGw4WxWko'] }}
+      targets: {{ ['google-site-verification=lKIp4qU-b57k_el-DoYWJWZ-bm5hMQUvvgrFYhNdeQE'] }}
