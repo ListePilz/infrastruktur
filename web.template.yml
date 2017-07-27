@@ -1,0 +1,59 @@
+Parameters:
+  OriginAccessIdentity:
+    Type: String
+    Default: a73427f5897eeae32bff3331e59667963dbc5d369586e8e3cd4a0bfd8e8be24b2ef033d4acb9223eac799c01bd33bf51
+  OriginAccessIdentityId:
+    Type: String
+    Default: E1T371FV1XB6AC
+Resources:
+  ListePilzWebBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      WebsiteConfiguration:
+        IndexDocument: index.html
+  ListePilzWebBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ListePilzWebBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Id: PolicyForCloudFrontPrivateContent
+        Statement:
+        - Sid: " Grant a CloudFront Origin Identity access to support private content"
+          Effect: Allow
+          Principal:
+            CanonicalUser: !Ref OriginAccessIdentity
+          Action: s3:GetObject
+          Resource: !Sub "${ListePilzWebBucket.Arn}/*"
+  ListePilzBucketDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        PriceClass: PriceClass_100
+        HttpVersion: http2
+        Origins:
+        - DomainName: !GetAtt ListePilzWebBucket.DomainName
+          Id: S3WebBucketOrigin
+          S3OriginConfig:
+            OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${OriginAccessIdentityId}"
+        CustomErrorResponses:
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /404.html
+        Enabled: 'true'
+        Aliases:
+          - listepilz.at
+        DefaultRootObject: index.html
+        DefaultCacheBehavior:
+          DefaultTTL: 0
+          MaxTTL: 0
+          TargetOriginId: S3WebBucketOrigin
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+        # ViewerCertificate:
+        #   AcmCertificateArn: !Ref AcmCertificate
+        #   SslSupportMethod: sni-only
