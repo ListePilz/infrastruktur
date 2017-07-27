@@ -1,0 +1,12 @@
+Resources:
+  ListePilzACMCertificate:
+    Type: "AWS::CertificateManager::Certificate"
+    Properties:
+      DomainName: listepilz.at
+      DomainValidationOptions:
+        - DomainName: listepilz.at
+          ValidationDomain: listepilz.at
+        - DomainName: '*.listepilz.at'
+          ValidationDomain: listepilz.at
+      SubjectAlternativeNames:
+        - '*.listepilz.at'

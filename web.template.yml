@@ -5,6 +5,9 @@ Parameters:
   OriginAccessIdentityId:
     Type: String
     Default: E1T371FV1XB6AC
+  AcmCertificateArn:
+    Type: String
+    Default: arn:aws:acm:us-east-1:378698777402:certificate/b53ca525-c1f9-40ce-9cb6-f7e0a1b58234
 Resources:
   ListePilzWebBucket:
     Type: "AWS::S3::Bucket"
@@ -54,6 +57,6 @@ Resources:
               Forward: none
           ViewerProtocolPolicy: redirect-to-https
           Compress: true
-        # ViewerCertificate:
-        #   AcmCertificateArn: !Ref AcmCertificate
-        #   SslSupportMethod: sni-only
+        ViewerCertificate:
+          AcmCertificateArn: !Ref AcmCertificateArn
+          SslSupportMethod: sni-only
