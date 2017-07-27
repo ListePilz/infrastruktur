@@ -1,0 +1,24 @@
+{% set domain = 'listepilz.at' %}
+{% set modules = 'modules/' %}
+
+Parameters:
+  Domain:
+    Type: String
+    Default: {{ domain }}
+
+Modules:
+  - path: {{modules}}/dns
+    template: hosted_zone
+    vars:
+      name: {{ domain }}
+  - path: {{modules}}dns
+    template: google_mx_records
+    vars:
+      source: {{ domain }}
+      hostedZone: {{ domain }}
+  - path: {{modules}}dns
+    template: txt
+    vars:
+      source: {{ domain }}
+      hostedZone: {{ domain }}
+      targets: {{ ['google-site-verification=FUiaYFFdYrCtrcLB8viZUwT7Q2RjQAqksNJGw4WxWko'] }}

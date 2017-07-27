@@ -1,0 +1,49 @@
+# Resources:
+#   ListePilzWebBucket:
+#     Type: "AWS::S3::Bucket"
+#     Properties:
+#       WebsiteConfiguration:
+#         IndexDocument: index.html
+#   ListePilzBucketDistribution:
+#     Type: AWS::CloudFront::Distribution
+#     Properties:
+#       DistributionConfig:
+#         PriceClass: PriceClass_100
+#         HttpVersion: http2
+#         Origins:
+#         - DomainName: !GetAtt ListePilzWebBucket.DomainName
+#           Id: S3WebBucketOrigin
+#           S3OriginConfig:
+#             OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${OriginAccessIdentityId}"
+#         CustomErrorResponses:
+#           - ErrorCode: 404
+#             ResponseCode: 200
+#             ResponsePagePath: /error-404.html
+#         Enabled: 'true'
+#         Aliases:
+#           - listepilz.at
+#         DefaultRootObject: index.html
+#         DefaultCacheBehavior:
+#           DefaultTTL: 0
+#           MaxTTL: 0
+#           TargetOriginId: S3WebBucketOrigin
+#           ForwardedValues:
+#             QueryString: false
+#             Cookies:
+#               Forward: none
+#           ViewerProtocolPolicy: redirect-to-https
+#           Compress: true
+#           TrustedSigners:
+#             - !Ref AWS::AccountId
+#         CacheBehaviors:
+#           - DefaultTTL: 5
+#             MaxTTL: 5
+#             TargetOriginId: S3WebErrorBucketOrigin
+#             ForwardedValues:
+#               QueryString: false
+#             ViewerProtocolPolicy: redirect-to-https
+#             PathPattern: /unauthorized/*
+#             Compress: true
+#         ViewerCertificate:
+#           AcmCertificateArn: !Ref AcmCertificate
+#           SslSupportMethod: sni-only

@@ -1,0 +1,15 @@
+{% set domain = 'liste-pilz.at' %}
+{% set modules = 'modules/' %}
+
+Modules:
+  - path: {{modules}}/dns
+    template: hosted_zone
+    vars:
+      name: {{ domain }}
+  # - path: {{modules}}dns
+  #   template: redirect
+  #   vars:
+  #     source: liste-pilz.at
+  #     hostedZone: {{ domain }}
+  #     redirect_host: {{ domain }}
+  #     protocol: https
