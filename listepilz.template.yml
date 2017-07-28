@@ -22,3 +22,10 @@ Modules:
       source: {{ domain }}
       hostedZone: {{ domain }}
       targets: {{ ['google-site-verification=lKIp4qU-b57k_el-DoYWJWZ-bm5hMQUvvgrFYhNdeQE'] }}
+  - path: {{modules}}dns
+    template: redirect
+    vars:
+      source: www.listepilz.at
+      hostedZone: {{ domain }}
+      redirect_host: {{ domain }}
+      protocol: https
