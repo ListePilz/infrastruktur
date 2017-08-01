@@ -1,5 +1,9 @@
 {% set domain = 'listepilz.at' %}
 {% set modules = 'modules/' %}
+{% set wiki_host = 'sites.google.com' %}
+{% set wiki_path = '/listepilz.at/intern' %}
+
+
 
 Parameters:
   Domain:
@@ -28,4 +32,20 @@ Modules:
       source: www.listepilz.at
       hostedZone: {{ domain }}
       redirect_host: {{ domain }}
+      protocol: https
+  - path: {{modules}}dns
+    template: redirect
+    vars:
+      source: intern.listepilz.at
+      hostedZone: {{ domain }}
+      redirect_host: {{ wiki_host }}
+      path: {{ wiki_path }}
+      protocol: https
+  - path: {{modules}}dns
+    template: redirect
+    vars:
+      source: wiki.listepilz.at
+      hostedZone: {{ domain }}
+      redirect_host: {{ wiki_host }}
+      path: {{ wiki_path }}
       protocol: https
