@@ -11,21 +11,25 @@ Parameters:
     Default: {{ domain }}
 
 Modules:
-  - path: {{modules}}/dns
+  - path: {{modules}}dns
     template: hosted_zone
     vars:
       name: {{ domain }}
-  - path: {{modules}}dns
-    template: google_mx_records
+  - path: {{ modules }}dns
+    template: mx_record
     vars:
-      source: {{ domain }}
       hostedZone: {{ domain }}
+      source: {{ domain }}
+      targets:
+        - '0 listepilz-at.mail.protection.outlook.de'
   - path: {{modules}}dns
     template: txt
     vars:
       source: {{ domain }}
       hostedZone: {{ domain }}
-      targets: {{ ['google-site-verification=lKIp4qU-b57k_el-DoYWJWZ-bm5hMQUvvgrFYhNdeQE'] }}
+      targets:
+        - 'MS=ms34244456'
+        - 'v=spf1 include:spf.protection.outlook.de -all'
   - path: {{modules}}dns
     template: redirect
     vars:
@@ -49,3 +53,21 @@ Modules:
       redirect_host: {{ wiki_host }}
       path: {{ wiki_path }}
       protocol: https
+
+{% set microsoft_cnames = {
+  'autodiscover': 'autodiscover-outlook.office.de',
+  'sip': 'sipdir.online.skype.de',
+  'lyncdiscover': 'webdir.online.skype.de',
+  'enterpriseregistration': 'enterpriseregistration.microsoftonline.de',
+  'enterpriseenrollment': 'enterpriseenrollment.manage.microsoft.com'
+}
+%}
+
+{% for cname, target in microsoft_cnames.items() %}
+  - path: {{modules}}dns
+    template: cname
+    vars:
+      source: {{ cname }}.listepilz.at
+      hostedZone: {{ domain }}
+      targets: [{{target}}]
+{% endfor %}
