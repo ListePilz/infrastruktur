@@ -30,6 +30,7 @@ Modules:
       targets:
         - 'MS=ms34244456'
         - 'v=spf1 include:spf.protection.outlook.de -all'
+        - 'v=spf1 include:servers.mcsv.net ?all'
   - path: {{modules}}dns
     template: redirect
     vars:
@@ -71,3 +72,11 @@ Modules:
       hostedZone: {{ domain }}
       targets: [{{target}}]
 {% endfor %}
+
+  # Mailchimp DKIM CNAME http://kb.mailchimp.com/accounts/email-authentication/set-up-custom-domain-authentication-dkim-and-spf
+  - path: {{modules}}dns
+      template: cname
+      vars:
+        source: k1._domainkey.listepilz.at
+        hostedZone: {{ domain }}
+        targets: ['dkim.mcsv.net']
