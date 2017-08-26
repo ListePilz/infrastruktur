@@ -49,10 +49,10 @@ Resources:
         PriceClass: PriceClass_100
         HttpVersion: http2
         Origins:
-        - DomainName: !Sub ${ListePilzWebBucket}s3-website.${AWS::Region}.amazonaws.com
+        - DomainName: !Sub ${ListePilzWebBucket}.s3-website.${AWS::Region}.amazonaws.com
           Id: S3WebBucketOrigin
-          S3OriginConfig:
-            OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${OriginAccessIdentityId}"
+          CustomOriginConfig:
+            OriginProtocolPolicy: http-only
         CustomErrorResponses:
           - ErrorCode: 404
             ResponseCode: 404
