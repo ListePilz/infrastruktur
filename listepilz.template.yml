@@ -75,8 +75,8 @@ Modules:
 
   # Mailchimp DKIM CNAME http://kb.mailchimp.com/accounts/email-authentication/set-up-custom-domain-authentication-dkim-and-spf
   - path: {{modules}}dns
-      template: cname
-      vars:
-        source: k1._domainkey.listepilz.at
-        hostedZone: {{ domain }}
-        targets: ['dkim.mcsv.net']
+    template: cname
+    vars:
+      source: k1._domainkey.listepilz.at
+      hostedZone: {{ domain }}
+      targets: ['dkim.mcsv.net']
