@@ -1,0 +1,7 @@
+Modules:
+  - path: modules/dns
+    template: a_record
+    vars:
+      source: vorarlberg.listepilz.at
+      hostedZone: listepilz.at
+      targets: ['85.13.156.40']
