@@ -80,3 +80,14 @@ Modules:
       source: k1._domainkey.listepilz.at
       hostedZone: {{ domain }}
       targets: ['dkim.mcsv.net']
+
+{% set a_records = ['crm', 'daten', 'owncloud', 'spenden'] %}
+
+{% for record in a_records %}
+  - path: {{modules}}dns
+    template: a_record
+    vars:
+      source: {{ record }}.listepilz.at
+      hostedZone: {{ domain }}
+      targets: [87.230.46.152]
+{% endfor %}
