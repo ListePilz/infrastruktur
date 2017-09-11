@@ -18,9 +18,9 @@ Resources:
       HostedZoneName: !Sub ${Domain}.
       Name: !Ref Domain
       Type: A
-      AliasTarget:
-        DNSName: !GetAtt ListePilzBucketDistribution.DomainName
-        HostedZoneId: Z2FDTNDATAQYW2
+      TTL: '43200'
+      ResourceRecords:
+        - 87.230.46.152
 
 ## Website
   ListePilzWebBucket:
