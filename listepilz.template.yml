@@ -80,7 +80,7 @@ Modules:
       hostedZone: {{ domain }}
       targets: ['dkim.mcsv.net']
 
-{% set a_records = ['crm', 'daten', 'owncloud', 'spenden', 'schwammerlsuche', 'spiel'] %}
+{% set a_records = ['crm', 'daten', 'owncloud', 'spenden', 'schwammerlsuche', 'spiel', 'klub', 'home'] %}
 
 {% for record in a_records %}
   - path: {{modules}}dns
